@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './App.css';
-import Card from './Card1'
+import Card from './Card'
 function App() {
   return (
     <div>
