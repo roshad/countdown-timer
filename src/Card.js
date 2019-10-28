@@ -3,39 +3,38 @@ import "./Card.css";
 import sound from "./alarm.mp3";
 
 function Card() {
-  const [state, setState] = useState({    
+  const [state, setState] = useState({
     textBox: "5:0"
   });
   function durToShow(dur) {
     return Math.floor(dur / 60000) + ":" + Math.floor((dur % 60000) / 1000);
   }
-  function ShowToDur(text){
-      const matched = text.match(/^(\d{1,2}):(\d{1,2})$/)
-      return matched[1] * 60000 + matched[2] * 1000
+  function ShowToDur(text) {
+    const matched = text.match(/^(\d{1,2}):(\d{1,2})$/);
+    return matched[1] * 60000 + matched[2] * 1000;
   }
   function changeHandler(e) {
     setState({ ...state, textBox: e.target.value });
-  }  
-  function ssHandler() {    
-    let endTime = Date.now() + ShowToDur(state.textBox),
-      running = false;
-    const audio = new Audio(sound),
-      countDown = setInterval(() => {
-        if (running === true) {
-          let remaining = endTime - Date.now();
-          remaining = remaining < 0 ? 0 : remaining;
-          setState({
-            ...state,
-            textBox: durToShow(remaining)
-          });
-          if (remaining === 0) {
-            audio.play();
-            clearInterval(countDown);
-          }
+  }
+  let running=false,endTime=Date.now() + ShowToDur(state.textBox)
+  const audio = new Audio(sound),
+    countDown = setInterval(() => {
+      if (running === true) {
+        let remaining = endTime - Date.now();
+        remaining = remaining < 0 ? 0 : remaining;
+        setState({
+          ...state,
+          textBox: durToShow(remaining)
+        });
+        if (remaining === 0) {
+          audio.play();
+          clearInterval(countDown);
         }
-      }, 100);
-    
-    running=!running
+      }
+    }, 100);
+  function ssHandler() {
+    endTime = Date.now() + ShowToDur(state.textBox)     
+    running = !running;
   }
 
   return (
