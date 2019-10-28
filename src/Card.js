@@ -4,7 +4,8 @@ import sound from "./alarm.mp3";
 
 function Card() {
   const [state, setState] = useState({
-    textBox: "5:0"
+    textBox: "5:0",
+    running:false
   });
   function durToShow(dur) {
     return Math.floor(dur / 60000) + ":" + Math.floor((dur % 60000) / 1000);
@@ -16,10 +17,10 @@ function Card() {
   function changeHandler(e) {
     setState({ ...state, textBox: e.target.value });
   }
-  let running=false,endTime=Date.now() + ShowToDur(state.textBox)
+  let endTime=Date.now() + ShowToDur(state.textBox)
   const audio = new Audio(sound),
     countDown = setInterval(() => {
-      if (running === true) {
+      if (state.running === true) {
         let remaining = endTime - Date.now();
         remaining = remaining < 0 ? 0 : remaining;
         setState({
@@ -33,8 +34,8 @@ function Card() {
       }
     }, 100);
   function ssHandler() {
-    endTime = Date.now() + ShowToDur(state.textBox)     
-    running = !running;
+    endTime = Date.now() + ShowToDur(state.textBox) ;    
+    setState({...state,running:!state.running})    
   }
 
   return (
