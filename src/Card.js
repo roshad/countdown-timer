@@ -33,12 +33,18 @@ class Card extends React.Component {
     const matched = text.match(/^(\d{1,2}):(\d{1,2})$/);
     return matched[1] * 60000 + matched[2] * 1000;
   }
+  submitHandler(e) {
+    e.preventDefault();
+    this.setState({ duration: this.ShowToDur(this.state.textBox) });
+  }
   changeHandler(e) {
     this.setState({ textBox: e.target.value });
   }
   ssHandler() {
-    this.endTime = Date.now() + this.ShowToDur(this.state.textBox);
-    this.setState({ running: !this.state.running });
+    this.setState({
+      running: !this.state.running,
+      endTime: Date.now() + this.ShowToDur(this.state.textBox)
+    });
   }
   resetHandler() {
     this.setState({
@@ -48,8 +54,11 @@ class Card extends React.Component {
     this.state.audio.pause();
   }
   restartHandler() {
-    this.resetHandler();
-    this.ssHandler();
+    this.setState({
+      textBox: this.durToShow(this.state.duration),
+      running: true
+    });
+    this.state.audio.pause();
   }
   render() {
     ipcRenderer.on("changeColor", () => {
@@ -57,7 +66,7 @@ class Card extends React.Component {
     });
     return (
       <div class="timer_card">
-        <form onSubmit={e => e.preventDefault()}>
+        <form onSubmit={e => this.submitHandler(e)}>
           <input
             pattern="^\d{1,2}[:.]\d{1,2}$"
             onChange={e => this.changeHandler(e)}
