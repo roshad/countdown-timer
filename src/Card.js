@@ -2,7 +2,7 @@ import React from "react";
 import "./Card.css";
 import sound from "./alarm.mp3";
 const { ipcRenderer } = window.require("electron");
-
+ipcRenderer.on("restart", ()=>document.getElementById("restart").click());
 class Card extends React.Component {
   state = {
     duration: 300000,
@@ -63,7 +63,7 @@ class Card extends React.Component {
     console.log("test")
   }
   render() {
-    ipcRenderer.on("changeColo1", ()=>this.restartHandler());
+    
     return (
       <div class="timer_card">
         <form onSubmit={e => this.submitHandler(e)}>
@@ -75,7 +75,7 @@ class Card extends React.Component {
         </form>
         <div onClick={e => this.ssHandler(e)}>start</div>
         <div onClick={e => this.resetHandler(e)}>reset</div>
-        <div onClick={e => this.restartHandler(e)}>restart</div>
+        <div id="restart" onClick={e => this.restartHandler(e)}>restart</div>
         <div>config</div>
       </div>
     );
