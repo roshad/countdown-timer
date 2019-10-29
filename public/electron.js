@@ -1,5 +1,6 @@
 const electron = require("electron");
 const app = electron.app;
+const globalShortcut = electron.globalShortcut;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require("path");
@@ -26,7 +27,11 @@ function createWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 }
 app.on("ready", createWindow);
-
+app.on("ready", () => {
+  globalShortcut.register("Alt+R", () => {
+    mainWindow.webContents.send("changeColor", "green");
+  });
+});
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();

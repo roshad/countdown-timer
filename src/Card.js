@@ -1,10 +1,11 @@
 import React from "react";
 import "./Card.css";
 import sound from "./alarm.mp3";
+const { ipcRenderer } = window.require("electron");
 
 class Card extends React.Component {
   state = {
-    duration:300000,
+    duration: 300000,
     textBox: "5:0",
     running: false,
     endTime: null,
@@ -20,7 +21,7 @@ class Card extends React.Component {
         });
         if (remaining === 0) {
           this.state.audio.play();
-          this.setState({running:false})
+          this.setState({ running: false });
         }
       }
     }, 100)
@@ -33,24 +34,27 @@ class Card extends React.Component {
     return matched[1] * 60000 + matched[2] * 1000;
   }
   changeHandler(e) {
-    this.setState({  textBox: e.target.value });
+    this.setState({ textBox: e.target.value });
   }
   ssHandler() {
     this.endTime = Date.now() + this.ShowToDur(this.state.textBox);
     this.setState({ running: !this.state.running });
   }
-  resetHandler(){
-    this.setState({textBox:this.durToShow(this.state.duration),running:false})
-    this.state.audio.pause()
+  resetHandler() {
+    this.setState({
+      textBox: this.durToShow(this.state.duration),
+      running: false
+    });
+    this.state.audio.pause();
   }
-  restartHandler(){
-    this.resetHandler()
-    this.ssHandler()
+  restartHandler() {
+    this.resetHandler();
+    this.ssHandler();
   }
   render() {
-    const globalShortcut= window.require('electron').remote.globalShortcut;
-    globalShortcut.register('Alt+R',this.restartHandler())
-    
+    ipcRenderer.on("changeColor", () => {
+      this.restartHandler();
+    });
     return (
       <div class="timer_card">
         <form onSubmit={e => e.preventDefault()}>
