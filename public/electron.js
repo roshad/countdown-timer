@@ -25,13 +25,6 @@ function createWindow() {
   }
   mainWindow.on("closed", () => (mainWindow = null));
 }
-const { globalShortcut } = require("electron");
-
-app.on("ready", () => {
-  globalShortcut.register("CommandOrControl+X", () => {
-    console.log("CommandOrControl+X is pressed");
-  });
-});
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {

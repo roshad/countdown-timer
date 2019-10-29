@@ -2,15 +2,6 @@ import React from "react";
 import "./Card.css";
 import sound from "./alarm.mp3";
 
-const {globalShortcut,app} = window.require('electron').remote
-
-const electron=window.require('electron')
-
-
-  globalShortcut.register('Alt+X', () => {
-    console.log('CommandOrControl+X is pressed')
-  })
-
 class Card extends React.Component {
   state = {
     duration:300000,
@@ -57,6 +48,9 @@ class Card extends React.Component {
     this.ssHandler()
   }
   render() {
+    const globalShortcut= window.require('electron').remote.globalShortcut;
+    globalShortcut.register('Alt+R',this.restartHandler())
+    
     return (
       <div class="timer_card">
         <form onSubmit={e => e.preventDefault()}>
