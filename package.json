@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",
+  
   "dependencies": {
     "electron-is-dev": "^1.1.0",
     "moment": "^2.24.0",
@@ -33,6 +34,7 @@
     ]
   },
   "devDependencies": {
+
     "concurrently": "^5.0.0",
     "electron": "^7.0.0",
     "electron-builder": "^21.2.0",

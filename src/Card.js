@@ -2,6 +2,15 @@ import React from "react";
 import "./Card.css";
 import sound from "./alarm.mp3";
 
+const {globalShortcut,app} = window.require('electron').remote
+
+const electron=window.require('electron')
+
+
+  globalShortcut.register('Alt+X', () => {
+    console.log('CommandOrControl+X is pressed')
+  })
+
 class Card extends React.Component {
   state = {
     duration:300000,
@@ -20,7 +29,7 @@ class Card extends React.Component {
         });
         if (remaining === 0) {
           this.state.audio.play();
-          clearInterval(this.state.countDown);
+          this.setState({running:false})
         }
       }
     }, 100)
@@ -40,9 +49,12 @@ class Card extends React.Component {
     this.setState({ running: !this.state.running });
   }
   resetHandler(){
-    this.setState({textBox:this.durToShow(this.state.duration)})
+    this.setState({textBox:this.durToShow(this.state.duration),running:false})
     this.state.audio.pause()
-    
+  }
+  restartHandler(){
+    this.resetHandler()
+    this.ssHandler()
   }
   render() {
     return (
@@ -56,9 +68,11 @@ class Card extends React.Component {
         </form>
         <div onClick={e => this.ssHandler(e)}>start</div>
         <div onClick={e => this.resetHandler(e)}>reset</div>
+        <div onClick={e => this.restartHandler(e)}>restart</div>
         <div>config</div>
       </div>
     );
   }
 }
+
 export default Card;
