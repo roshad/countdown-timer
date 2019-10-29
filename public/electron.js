@@ -29,7 +29,7 @@ function createWindow() {
 app.on("ready", createWindow);
 app.on("ready", () => {
   globalShortcut.register("Alt+R", () => {
-    mainWindow.webContents.send("changeColor", "green");
+    mainWindow.webContents.send("changeColo1", "green");
   });
 });
 app.on("window-all-closed", () => {

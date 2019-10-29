@@ -6,18 +6,18 @@ const { ipcRenderer } = window.require("electron");
 class Card extends React.Component {
   state = {
     duration: 300000,
-    textBox: "5:0",
+    remain_text: "5:0",
     running: false,
     endTime: null,
     audio: new Audio(sound),
     countDown: setInterval(() => {
       if (this.state.running === true) {
-        let remaining = this.endTime - Date.now();
+        let remaining = this.state.endTime - Date.now();
         remaining = remaining < 0 ? 0 : remaining;
 
         this.setState({
           ...this.state,
-          textBox: this.durToShow(remaining)
+          remain_text: this.durToShow(remaining)
         });
         if (remaining === 0) {
           this.state.audio.play();
@@ -35,42 +35,42 @@ class Card extends React.Component {
   }
   submitHandler(e) {
     e.preventDefault();
-    this.setState({ duration: this.ShowToDur(this.state.textBox) });
+    this.setState({ duration: this.ShowToDur(this.state.remain_text) });
   }
   changeHandler(e) {
-    this.setState({ textBox: e.target.value });
+    this.setState({ remain_text: e.target.value });
   }
   ssHandler() {
     this.setState({
       running: !this.state.running,
-      endTime: Date.now() + this.ShowToDur(this.state.textBox)
+      endTime: Date.now() + this.ShowToDur(this.state.remain_text)
     });
   }
   resetHandler() {
     this.setState({
-      textBox: this.durToShow(this.state.duration),
+      remain_text: this.durToShow(this.state.duration),
       running: false
     });
     this.state.audio.pause();
   }
   restartHandler() {
     this.setState({
-      textBox: this.durToShow(this.state.duration),
-      running: true
+      remain_text: this.durToShow(this.state.duration),
+      running: true,
+      endTime: Date.now() + this.state.duration
     });
     this.state.audio.pause();
+    console.log("test")
   }
   render() {
-    ipcRenderer.on("changeColor", () => {
-      this.restartHandler();
-    });
+    ipcRenderer.on("changeColo1", ()=>this.restartHandler());
     return (
       <div class="timer_card">
         <form onSubmit={e => this.submitHandler(e)}>
           <input
             pattern="^\d{1,2}[:.]\d{1,2}$"
             onChange={e => this.changeHandler(e)}
-            value={this.state.textBox}
+            value={this.state.remain_text}
           />
         </form>
         <div onClick={e => this.ssHandler(e)}>start</div>
