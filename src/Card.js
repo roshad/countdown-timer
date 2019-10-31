@@ -13,12 +13,16 @@ class Card extends React.Component {
     const matched = text.match(/^(\d{1,2})[:.]?(\d{1,2})?$/);
     return matched[1] * 60000 + (matched[2] || 0) * 1000;
   }
-  state = {
-    duration: this.props.dur,
+  constructor(props){
+    super(props);
+    const aud=new Audio(sound)
+    aud.loop=true
+    this.state={
+      duration: this.props.dur,
     remain_text: this.durToShow(this.props.dur),
     running: false,
     endTime: null,
-    audio: new Audio(sound),
+    audio: aud,
     countDown: setInterval(() => {
       if (this.state.running === true) {
         let remaining = this.state.endTime - Date.now();
@@ -34,7 +38,9 @@ class Card extends React.Component {
         }
       }
     }, 100)
-  };
+    }
+  }
+  
 
   submitHandler(e) {
     e.preventDefault();
