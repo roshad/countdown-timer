@@ -5,7 +5,8 @@ import Card from './Card'
 function App() {
   return (
     <div>
-      <Card/>
+      <Card dur={600000}/>
+      <Card dur={300000}/>
     </div>
   );
 }

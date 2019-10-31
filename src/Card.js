@@ -1,12 +1,21 @@
 import React from "react";
 import "./Card.css";
-import sound from "./alarm.mp3";
+import sound from "./dingdong.wav";
+import restartSVG from "./restart.svg";
+import resetSVG from "./reset.svg";
 const { ipcRenderer } = window.require("electron");
-ipcRenderer.on("restart", ()=>document.getElementById("restart").click());
+ipcRenderer.on("restart", () => document.getElementById("restart").click());
 class Card extends React.Component {
+  durToShow(dur) {
+    return Math.floor(dur / 60000) + ":" + Math.floor((dur % 60000) / 1000);
+  }
+  ShowToDur(text) {
+    const matched = text.match(/^(\d{1,2})[:.]?(\d{1,2})?$/);
+    return matched[1] * 60000 + (matched[2] || 0) * 1000;
+  }
   state = {
-    duration: 300000,
-    remain_text: "5:0",
+    duration: this.props.dur,
+    remain_text: this.durToShow(this.props.dur),
     running: false,
     endTime: null,
     audio: new Audio(sound),
@@ -26,26 +35,16 @@ class Card extends React.Component {
       }
     }, 100)
   };
-  durToShow(dur) {
-    return Math.floor(dur / 60000) + ":" + Math.floor((dur % 60000) / 1000);
-  }
-  ShowToDur(text) {
-    const matched = text.match(/^(\d{1,2}):(\d{1,2})$/);
-    return matched[1] * 60000 + matched[2] * 1000;
-  }
+
   submitHandler(e) {
     e.preventDefault();
     this.setState({ duration: this.ShowToDur(this.state.remain_text) });
+    this.setState(state => ({ remain_text: this.durToShow(state.duration) }));
   }
   changeHandler(e) {
     this.setState({ remain_text: e.target.value });
   }
-  ssHandler() {
-    this.setState({
-      running: !this.state.running,
-      endTime: Date.now() + this.ShowToDur(this.state.remain_text)
-    });
-  }
+
   resetHandler() {
     this.setState({
       remain_text: this.durToShow(this.state.duration),
@@ -60,23 +59,26 @@ class Card extends React.Component {
       endTime: Date.now() + this.state.duration
     });
     this.state.audio.pause();
-    console.log("test")
+    console.log("test");
   }
   render() {
-    
     return (
-      <div class="timer_card">
+      <div className="timer_card">
         <form onSubmit={e => this.submitHandler(e)}>
           <input
-            pattern="^\d{1,2}[:.]\d{1,2}$"
+            pattern="^(\d{1,2})[:.]?(\d{1,2})?$"
             onChange={e => this.changeHandler(e)}
             value={this.state.remain_text}
+            title="^(\d{1,2})[:.]?(\d{1,2})?$"
           />
         </form>
-        <div onClick={e => this.ssHandler(e)}>start</div>
-        <div onClick={e => this.resetHandler(e)}>reset</div>
-        <div id="restart" onClick={e => this.restartHandler(e)}>restart</div>
-        <div>config</div>
+        <button onClick={e => this.resetHandler(e)}>
+          <img width="50rem" src={resetSVG} alt="reset" />
+        </button>
+        <button id="restart" onClick={e => this.restartHandler(e)}>
+          <img width="50rem" src={restartSVG} alt="restart" />
+        </button>
+        
       </div>
     );
   }
