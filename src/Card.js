@@ -13,35 +13,34 @@ class Card extends React.Component {
     const matched = text.match(/^(\d{1,2})[:.]?(\d{1,2})?$/);
     return matched[1] * 60000 + (matched[2] || 0) * 1000;
   }
-  constructor(props){
+  constructor(props) {
     super(props);
-    const aud=new Audio(sound)
-    aud.loop=true
-    this.state={
+    const aud = new Audio(sound);
+    aud.loop = true;
+    this.state = {
       duration: this.props.dur,
-    remain_text: this.durToShow(this.props.dur),
-    running: false,
-    endTime: null,
-    audio: aud,
-    countDown: setInterval(() => {
-      if (this.state.running === true) {
-        let remaining = this.state.endTime - Date.now();
-        remaining = remaining < 0 ? 0 : remaining;
+      remain_text: this.durToShow(this.props.dur),
+      running: false,
+      endTime: null,
+      audio: aud,
+      countDown: setInterval(() => {
+        if (this.state.running === true) {
+          let remaining = this.state.endTime - Date.now();
+          remaining = remaining < 0 ? 0 : remaining;
 
-        this.setState({
-          ...this.state,
-          remain_text: this.durToShow(remaining)
-        });
-        if (remaining === 0) {
-          this.state.audio.play();
-          this.setState({ running: false });
+          this.setState({
+            ...this.state,
+            remain_text: this.durToShow(remaining)
+          });
+          if (remaining === 0) {
+            this.state.audio.play();
+            this.setState({ running: false });
+          }
         }
-      }
-    }, 100)
-    }
+      }, 100),
+      reset: true
+    };
   }
-  
-
   submitHandler(e) {
     e.preventDefault();
     this.setState({ duration: this.ShowToDur(this.state.remain_text) });
@@ -67,6 +66,17 @@ class Card extends React.Component {
     this.state.audio.pause();
     console.log("test");
   }
+  configHandler() {
+    this.setState({
+      remain_text: this.durToShow(this.state.duration),
+      running: true,
+      endTime: Date.now() + this.state.duration
+    });
+    this.state.audio.pause();    
+  }
+  resetEnabled() {
+    this.setState({ reset: !this.state.reset });    
+  }
   render() {
     return (
       <div className="timer_card">
@@ -78,12 +88,18 @@ class Card extends React.Component {
             title="^(\d{1,2})[:.]?(\d{1,2})?$"
           />
         </form>
-        <button onClick={e => this.resetHandler(e)}>
-          <img width="50rem" src={resetSVG} alt="reset" />
-        </button>
+        {this.state.reset ? (
+          <button onClick={e => this.resetHandler(e)}>
+            <img width="50rem" src={resetSVG} alt="reset" />
+          </button>
+        ) : null}
+
         <button id="restart" onClick={e => this.restartHandler(e)}>
           <img width="50rem" src={restartSVG} alt="restart" />
         </button>
+        
+        <input id="resetCheck" type="checkbox" onChange={e => this.resetEnabled()} />
+        <label for="resetCheck">Reset Button</label>
         
       </div>
     );
