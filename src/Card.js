@@ -99,7 +99,7 @@ class Card extends React.Component {
         </button>
         
         <input id="resetCheck" type="checkbox" onChange={e => this.resetEnabled()} />
-        <label for="resetCheck">Reset Button</label>
+        <label for="resetCheck">Disable Reset</label>
         
       </div>
     );
