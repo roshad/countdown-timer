@@ -72,10 +72,10 @@ class Card extends React.Component {
       running: true,
       endTime: Date.now() + this.state.duration
     });
-    this.state.audio.pause();    
+    this.state.audio.pause();
   }
   resetEnabled() {
-    this.setState({ reset: !this.state.reset });    
+    this.setState({ reset: !this.state.reset });
   }
   render() {
     return (
@@ -88,19 +88,31 @@ class Card extends React.Component {
             title="^(\d{1,2})[:.]?(\d{1,2})?$"
           />
         </form>
-        {this.state.reset ? (
-          <button onClick={e => this.resetHandler(e)}>
-            <img width="50rem" src={resetSVG} alt="reset" />
-          </button>
-        ) : null}
+        <div id="btn-group">
+          {this.state.reset ? (
+            <button onClick={e => this.resetHandler(e)}>
+              <img width="40rem" src={resetSVG} alt="reset" />
+            </button>
+          ) : null}
 
-        <button className="waves-effect waves-light btn" id="restart" onClick={e => this.restartHandler(e)}>
-          <img width="50rem" src={restartSVG} alt="restart" />
-        </button>
-        
-        <input id="resetCheck" type="checkbox" onChange={e => this.resetEnabled()} />
-        <label for="resetCheck">Disable Reset</label>
-        
+          <button
+            className="waves-effect waves-light btn"
+            id="restart"
+            onClick={e => this.restartHandler(e)}
+          >
+            <img width="40rem" src={restartSVG} alt="restart" />
+          </button>
+        </div>
+            <div id="cb_container">
+        <label>
+          <input
+            id="resetCheck"
+            type="checkbox"
+            onChange={e => this.resetEnabled()}
+          />
+          Disable Reset
+        </label>
+        </div>
       </div>
     );
   }

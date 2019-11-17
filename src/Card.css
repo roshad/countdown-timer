@@ -1,9 +1,8 @@
 .timer_card {
+    border: white solid 1px;
     border-radius: 1vmin;
-    width:10rem;   
-    margin:auto;
-    background: gray;
-    box-shadow: 0 0 1vmin white;    
+    box-shadow:0 0 1vmin white;
+    width:10rem;  
 }
 body{
     color:white;
@@ -19,9 +18,17 @@ input {
     background: transparent;    
     color:inherit;
 }
+#btn-group{
+    display:flex;
+    justify-content: space-evenly;
+}
 button {
-    
-    height:5rem;
-    width:5rem;
+    border-radius: 50%;
+    height:4rem;
+    width:4rem;
 }
 
+
+#cb_container{
+    display:flex;
+}
