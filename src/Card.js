@@ -3,8 +3,7 @@ import "./Card.css";
 import sound from "./dingdong.wav";
 import restartSVG from "./restart.svg";
 import resetSVG from "./reset.svg";
-const { ipcRenderer } = window.require("electron");
-ipcRenderer.on("restart", () => document.getElementById("restart").click());
+
 class Card extends React.Component {
   durToShow(dur) {
     return Math.floor(dur / 60000) + ":" + Math.floor((dur % 60000) / 1000);
@@ -23,6 +22,7 @@ class Card extends React.Component {
       running: false,
       endTime: null,
       audio: aud,
+      reset: false,
       countDown: setInterval(() => {
         if (this.state.running === true) {
           let remaining = this.state.endTime - Date.now();
@@ -37,8 +37,7 @@ class Card extends React.Component {
             this.setState({ running: false });
           }
         }
-      }, 100),
-      reset: true
+      }, 100)
     };
   }
   submitHandler(e) {
@@ -82,6 +81,7 @@ class Card extends React.Component {
       <div className="timer_card">
         <form onSubmit={e => this.submitHandler(e)}>
           <input
+            id="time"
             pattern="^(\d{1,2})[:.]?(\d{1,2})?$"
             onChange={e => this.changeHandler(e)}
             value={this.state.remain_text}
@@ -91,28 +91,25 @@ class Card extends React.Component {
         <div id="btn-group">
           {this.state.reset ? (
             <button onClick={e => this.resetHandler(e)}>
-              <img width="40rem" src={resetSVG} alt="reset" />
+              <img id="reset-img" src={resetSVG} alt="reset" />
             </button>
           ) : null}
 
-          <button
-            className="waves-effect waves-light btn"
-            id="restart"
-            onClick={e => this.restartHandler(e)}
-          >
-            <img width="40rem" src={restartSVG} alt="restart" />
+          <button id="restart" onClick={e => this.restartHandler(e)}>
+            <img id="restart-img" src={restartSVG} alt="restart" />
+            
+            
           </button>
         </div>
-            <div id="cb_container">
+
         <label>
           <input
             id="resetCheck"
             type="checkbox"
             onChange={e => this.resetEnabled()}
           />
-          Disable Reset
+          Enable Reset
         </label>
-        </div>
       </div>
     );
   }

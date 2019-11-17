@@ -1,7 +1,7 @@
 .timer_card {
-    border: white solid 1px;
-    border-radius: 1vmin;
-    box-shadow:0 0 1vmin white;
+    border: white solid 2px;
+    border-radius: 10px;
+    box-shadow:0 0 10px white;
     width:10rem;  
 }
 body{
@@ -9,7 +9,7 @@ body{
     background: black;
 }
 
-input {
+#time {
     border-style:none;
     outline-width: 0;
     font-size:3rem;
@@ -17,6 +17,7 @@ input {
     text-align: center;
     background: transparent;    
     color:inherit;
+    
 }
 #btn-group{
     display:flex;
@@ -26,9 +27,25 @@ button {
     border-radius: 50%;
     height:4rem;
     width:4rem;
+    
+    border:2px solid white;
+    background:black;
+    padding-top:4%;
 }
-
-
-#cb_container{
+button:hover{
+    background:gray;
+}
+button:active{
+    background: transparent;
+}
+label{
+    margin:.3vmin 0 .3vmin 0;
     display:flex;
+    justify-content: center;    
+}
+#restart-img {    
+   width:90%;
+}
+#reset-img{
+    width:80%;
 }
