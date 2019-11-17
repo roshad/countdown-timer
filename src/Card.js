@@ -94,7 +94,7 @@ class Card extends React.Component {
           </button>
         ) : null}
 
-        <button id="restart" onClick={e => this.restartHandler(e)}>
+        <button className="waves-effect waves-light btn" id="restart" onClick={e => this.restartHandler(e)}>
           <img width="50rem" src={restartSVG} alt="restart" />
         </button>
         

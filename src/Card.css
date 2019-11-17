@@ -1,11 +1,27 @@
 .timer_card {
-    border:1px solid blue;
-    width:5rem;   
+    border-radius: 1vmin;
+    width:10rem;   
     margin:auto;
+    background: gray;
+    box-shadow: 0 0 1vmin white;    
+}
+body{
+    color:white;
+    background: black;
 }
 
-#restart {
+input {
+    border-style:none;
+    outline-width: 0;
+    font-size:3rem;
+    width:10rem;
+    text-align: center;
+    background: transparent;    
+    color:inherit;
+}
+button {
     
     height:5rem;
     width:5rem;
 }
+

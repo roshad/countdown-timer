@@ -6,6 +6,7 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "electron-is-dev": "^1.1.0",
+    "materialize-css": "^1.0.0-rc.2",
     "moment": "^2.24.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
@@ -16,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
@@ -46,7 +47,7 @@
     "email": "your.email@domain.com",
     "url": "https://your-website.com"
   },
-  "build": {    
+  "build": {
     "files": [
       "build/**/*",
       "node_modules/**/*"
