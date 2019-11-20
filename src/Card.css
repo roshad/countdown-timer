@@ -26,11 +26,11 @@ body{
 button {
     border-radius: 50%;
     height:4rem;
-    width:4rem;
-    
+    width:4rem;    
     border:2px solid white;
     background:black;
     padding-top:4%;
+    outline-width: 0;
 }
 button:hover{
     background:gray;
